@@ -6,8 +6,17 @@
   <title>UrbanStyle Clothing Co.</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-    body { line-height: 1.6; color: #333; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      line-height: 1.6;
+      color: #333;
+      scroll-behavior: smooth;
+    }
     header {
       background: url('https://images.unsplash.com/photo-1521335629791-ce4aec67dd47') no-repeat center center/cover;
       height: 100vh;
@@ -17,22 +26,32 @@
       align-items: center;
       color: white;
       text-align: center;
+      padding: 1rem;
     }
     nav {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.8);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       z-index: 1000;
     }
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+    }
     nav a {
       color: white;
       margin: 0 1rem;
       text-decoration: none;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #ffd700;
     }
     .section {
       padding: 4rem 2rem;
@@ -53,6 +72,10 @@
       padding: 1rem;
       border-radius: 8px;
       width: 250px;
+      transition: transform 0.3s;
+    }
+    .product:hover {
+      transform: translateY(-5px);
     }
     .product img {
       width: 100%;
@@ -64,9 +87,26 @@
       padding: 2rem;
       text-align: center;
     }
-    input, button {
+    input, button, textarea {
       padding: 0.5rem;
       margin: 0.5rem 0;
+      width: 100%;
+      max-width: 400px;
+    }
+    button {
+      background-color: #000;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #444;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   </style>
 </head>
@@ -84,20 +124,20 @@
   <header id="home">
     <h1>Welcome to UrbanStyle</h1>
     <p>Modern fashion for the bold & stylish.</p>
-    <button>Shop Now</button>
+    <button onclick="scrollToSection('shop')">Shop Now</button>
   </header>
 
   <section class="section" id="shop">
     <h2>New Arrivals</h2>
     <div class="products">
       <div class="product">
-        <img src="https://via.placeholder.com/250x300" alt="Clothing item" />
+        <img src="https://via.placeholder.com/250x300" alt="Street Hoodie" />
         <h3>Street Hoodie</h3>
         <p>$49.99</p>
         <button>Add to Cart</button>
       </div>
       <div class="product">
-        <img src="https://via.placeholder.com/250x300" alt="Clothing item" />
+        <img src="https://via.placeholder.com/250x300" alt="Urban Tee" />
         <h3>Urban Tee</h3>
         <p>$29.99</p>
         <button>Add to Cart</button>
@@ -107,7 +147,7 @@
 
   <section class="section video-section" id="video">
     <h2>Lookbook</h2>
-    <video controls>
+    <video controls aria-label="UrbanStyle Lookbook Video">
       <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -115,20 +155,49 @@
 
   <section class="section" id="contact">
     <h2>Contact Us</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required /><br />
-      <input type="email" placeholder="Your Email" required /><br />
-      <textarea placeholder="Your Message" rows="5" required></textarea><br />
+    <form id="contactForm">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" placeholder="Your Name" required />
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="Your Email" required />
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+
       <button type="submit">Send Message</button>
+      <p id="formMessage" style="margin-top: 0.5rem;"></p>
     </form>
   </section>
 
   <footer class="footer">
     <p>&copy; 2025 UrbanStyle Clothing Co. All rights reserved.</p>
-    <form>
-      <input type="email" placeholder="Subscribe to our newsletter" />
-      <button>Subscribe</button>
+    <form id="newsletterForm">
+      <label for="newsletterEmail" style="display:none;">Email</label>
+      <input id="newsletterEmail" type="email" placeholder="Subscribe to our newsletter" required />
+      <button type="submit">Subscribe</button>
+      <p id="newsletterMessage"></p>
     </form>
   </footer>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Contact Form Handler
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('formMessage').textContent = 'Thanks for reaching out! We’ll get back to you soon.';
+      this.reset();
+    });
+
+    // Newsletter Subscription
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('newsletterMessage').textContent = 'Subscribed successfully!';
+      this.reset();
+    });
+  </script>
 </body>
 </html>
